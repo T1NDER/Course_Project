@@ -2,7 +2,6 @@
  * Класс SearchBlock
  * Используется для взаимодействием со строкой ввода и поиска изображений
  * */
-
 class SearchBlock {
   constructor(element) {
     this.element = element;
@@ -14,11 +13,10 @@ class SearchBlock {
    * Клик по кнопкам выполняет запрос на получение изображений и отрисовывает их,
    * только клик по кнопке "Заменить" перед отрисовкой очищает все отрисованные ранее изображения
    */
-
   registerEvents() {
     const addButton = this.element.querySelector(".add");
     const replaceButton = this.element.querySelector(".replace");
-    const searchInput = this.element.querySelector(".input.search-block");
+    const searchInput = this.element.querySelector(".input input");
 
     replaceButton.addEventListener("click", () => {
       const userId = searchInput.value.trim();

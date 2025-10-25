@@ -2,7 +2,6 @@
  * Класс ImageViewer
  * Используется для взаимодействием блоком изображений
  * */
-
 class ImageViewer {
   constructor(element) {
     this.element = element;
@@ -22,7 +21,6 @@ class ImageViewer {
    * 4. Клик по кнопке "Посмотреть загруженные файлы" открывает всплывающее окно просмотра загруженных файлов
    * 5. Клик по кнопке "Отправить на диск" открывает всплывающее окно для загрузки файлов
    */
-
   registerEvents() {
     this.imagesList.addEventListener("dblclick", (event) => {
       if (event.target.tagName === "IMG") {
@@ -67,14 +65,20 @@ class ImageViewer {
 
       modal.open();
 
-      Yandex.getUploadedFiles((files) => {
-        modal.showImages(files);
+      Yandex.getUploadedFiles((err, response) => {
+        if (!err && response) {
+          const items = Array.isArray(response)
+            ? response
+            : response.items || [];
+          if (items && items.length > 0) {
+            modal.showImages(items);
+          }
+        }
       });
     });
 
     const sendButton = this.element.querySelector(".send");
     sendButton.addEventListener("click", () => {
-
       const modal = App.getModal("fileUploader");
 
       const selectedImages = this.imagesList.querySelectorAll(
@@ -91,7 +95,6 @@ class ImageViewer {
   /**
    * Очищает отрисованные изображения
    */
-
   clear() {
     this.imagesList.innerHTML = "";
   }
@@ -99,7 +102,6 @@ class ImageViewer {
   /**
    * Отрисовывает изображения.
    */
-
   drawImages(images) {
     if (images && images.length > 0) {
       const selectAllButton = this.element.querySelector(".select-all");
@@ -122,7 +124,6 @@ class ImageViewer {
   /**
    * Контроллирует кнопки выделения всех изображений и отправки изображений на диск
    */
-
   checkButtonText() {
     const images = this.imagesList.querySelectorAll(".image-wrapper");
     const selectAllButton = this.element.querySelector(".select-all");

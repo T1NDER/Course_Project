@@ -2,7 +2,6 @@
  * Класс PreviewModal
  * Используется как обозреватель загруженный файлов в облако
  */
-
 class PreviewModal extends BaseModal {
   constructor(element) {
     super(element);
@@ -67,8 +66,10 @@ class PreviewModal extends BaseModal {
   /**
    * Отрисовывает изображения в блоке всплывающего окна
    */
-
   showImages(data) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return;
+    }
     const reversedData = data.reverse();
 
     const imageHTMLs = reversedData.map((item) => this.getImageInfo(item));
@@ -85,7 +86,6 @@ class PreviewModal extends BaseModal {
    * Форматирует дату в формате 2021-12-30T20:40:02+00:00(строка)
    * в формат «30 декабря 2021 г. в 23:40» (учитывая временной пояс)
    * */
-  
   formatDate(date) {
     const dateObj = new Date(date);
 
@@ -116,7 +116,6 @@ class PreviewModal extends BaseModal {
   /**
    * Возвращает разметку из изображения, таблицы с описанием данных изображения и кнопок контроллеров (удаления и скачивания)
    */
-  
   getImageInfo(item) {
     const imageUrl = item.preview || item.file;
     const fileName = item.name;
